@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="it"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#12150f">
+<meta name="color-scheme" content="dark">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Crafting MC</title>
+<style>
+:root{--bg:#12150f;--card:#1c211a;--c2:#262d23;--tx:#eef2ea;--mu:#9aa593;--ac:#6fcf4a;--ac2:#27401f;--gold:#f5c542;--bd:#2d3629;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+input{-webkit-user-select:text;user-select:text}
+html,body{height:100%;margin:0;overscroll-behavior:none}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 Roboto,system-ui,-apple-system,"Segoe UI",sans-serif}
+#app{display:flex;flex-direction:column;height:100%;max-width:640px;margin:0 auto}
+.ab{display:none;align-items:center;gap:8px;height:56px;padding:0 8px 0 16px;background:var(--card);flex:none;z-index:2;border-bottom:1px solid var(--bd)}
+#ttl{font-size:20px;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{display:none;width:44px;height:44px;border:0;border-radius:50%;background:none;color:var(--tx);align-items:center;justify-content:center;font-size:24px}
+#bk{margin-left:-10px}#fv{color:var(--gold)}.ib:active{background:var(--c2)}
+.sb{padding:12px 16px 6px;position:relative;flex:none}
+.sb svg{position:absolute;left:32px;top:26px;color:var(--mu)}
+#q{width:100%;height:48px;padding:0 16px 0 46px;border:1px solid var(--bd);border-radius:24px;background:var(--card);color:var(--tx);font:inherit;outline:0}
+#q:focus{border-color:var(--ac)}
+main{flex:1;overflow-y:auto;padding:8px 16px 20px;overscroll-behavior:contain;scrollbar-width:none}
+main::-webkit-scrollbar{display:none}
+@keyframes inn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+main.in{animation:inn .22s ease-out}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:12px}
+.mu{color:var(--mu);font-size:14px}
+.sec{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mu);margin:18px 0 10px}
+.hero{position:relative;overflow:hidden;border-radius:20px;padding:22px 18px 30px;margin-bottom:6px;background:linear-gradient(135deg,#2f6b1b,#173d12 62%,#0f240c)}
+.hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:12px;background:repeating-linear-gradient(90deg,#5aa63a 0 8px,#4c9a2a 8px 16px)}
+.ht{font-size:26px;font-weight:800;line-height:1.1}.hh{opacity:.8;font-size:14px;margin-top:4px;max-width:60%}
+.hi{position:absolute;right:12px;bottom:18px;display:flex;gap:2px}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cat{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 2px;border:1px solid var(--bd);border-radius:16px;background:var(--card);color:var(--tx);font:inherit;font-size:12px}
+.hz{display:flex;gap:8px;overflow-x:auto;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
+.tile{flex:none;width:84px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);font:inherit;font-size:11px;text-align:center}
+.li{display:flex;align-items:center;gap:14px;width:100%;padding:8px 10px;margin-bottom:6px;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);font:inherit;text-align:left}
+.li span{flex:1}.li svg{color:var(--mu);flex:none}
+.li:active,.cat:active,.tile:active,.chip:active,.btn:active{background:var(--c2)}
+.fc{display:flex;gap:6px;overflow-x:auto;margin:0 -16px 10px;padding:0 16px;scrollbar-width:none}
+.chip{display:inline-flex;align-items:center;gap:6px;flex:none;margin:0 6px 8px 0;padding:7px 12px;border:1px solid var(--bd);border-radius:20px;background:var(--card);color:var(--tx);font:inherit;font-size:14px;white-space:nowrap}
+.fc .chip{margin:0}.chip.sel{background:var(--ac);color:#0d1a08;border-color:var(--ac);font-weight:700}
+.btn{display:inline-block;text-decoration:none;border:0;border-radius:22px;padding:11px 20px;font:inherit;font-weight:600;background:var(--ac2);color:var(--ac);margin:0 8px 8px 0}
+.dh{display:flex;align-items:center;gap:14px;margin:4px 0 14px}.dh h2{margin:0;font-size:24px;font-weight:700}
+.tag{display:inline-block;margin-top:6px;padding:3px 10px;border-radius:10px;background:var(--ac2);color:var(--ac);font-size:12px;font-weight:700}
+.r{display:flex;align-items:center;gap:10px}
+.st{width:44px;height:44px;border:1px solid var(--bd);border-radius:12px;background:var(--c2);color:var(--tx);font-size:22px}
+input[type=number]{width:88px;height:44px;text-align:center;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);font:inherit;font-size:18px}
+.mc{background:#c6c6c6;border:3px solid;border-color:#fff #555 #555 #fff;border-radius:4px;padding:12px;margin-bottom:12px;color:#373737}
+.mt{font-size:13px;font-weight:700;margin-bottom:8px}
+.mr{display:flex;align-items:center;gap:8px}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;flex:1;max-width:210px}
+.ml{display:flex;flex-wrap:wrap;gap:2px;flex:1}.ml .sl{width:62px}
+.sl{aspect-ratio:1;background:#8b8b8b;border:2px solid;border-color:#373737 #fff #fff #373737;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1px;color:#161616;font:inherit;min-width:0;border-radius:0}
+.sl span{font-size:8px;line-height:1;margin-top:1px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ar{font-size:26px;color:#5a5a5a;flex:none}
+.out{position:relative;flex:none;width:68px;height:68px;background:#8b8b8b;border:2px solid;border-color:#373737 #fff #fff #373737;display:flex;align-items:center;justify-content:center}
+.out b{position:absolute;right:3px;bottom:0;font-size:15px;color:#fff;text-shadow:1px 1px #3f3f3f}
+.mf{margin-top:8px;font-size:12px;color:#454545}
+.px{image-rendering:pixelated;vertical-align:middle;flex:none}
+.kv{display:flex;gap:10px;margin-top:8px;font-size:14px}.kv b{flex:none;width:74px;color:var(--ac)}.kv span{flex:1}
+.gc{border-left:4px solid var(--ac)}.gc.Redstone{border-left-color:#e5483c}.gc.Utilità{border-left-color:#4aa3e8}
+details{margin:0}summary{display:flex;align-items:center;gap:12px;list-style:none}
+summary::-webkit-details-marker{display:none}summary::after{content:"▾";color:var(--mu)}details[open] summary::after{content:"▴"}
+ol{margin:10px 0 0;padding-left:20px}li{margin-bottom:6px}
+canvas{display:block;margin:10px 0 8px}
+nav{display:flex;background:var(--card);border-top:1px solid var(--bd);flex:none;padding:8px 0 10px}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border:0;background:none;color:var(--mu);font:inherit;font-size:12px;font-weight:600}
+.pill{width:60px;height:32px;border-radius:16px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+nav button.on{color:var(--tx)}nav button.on .pill{background:var(--ac2);color:var(--ac)}
+</style></head>
+<body><div id="app"><header class="ab" id="ab"><button class="ib" id="bk" onclick="back()" aria-label="Indietro"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg></button><div id="ttl"></div><button class="ib" id="fv" onclick="fav()" aria-label="Preferito">☆</button></header>
+<div class="sb" id="sbar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" placeholder="Cerca…" oninput="sq()" autocomplete="off"></div>
+<main id="m"></main>
+<nav><button id="t-h" onclick="tab('h')"><span class="pill"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10h-6v-6H9v6H3z"/></svg></span>Home</button><button id="t-c" onclick="tab('c')"><span class="pill"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>Crafting</button><button id="t-b" onclick="tab('b')"><span class="pill"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7zM3 7l9 5 9-5M12 12v10"/></svg></span>Blocchi</button><button id="t-g" onclick="tab('g')"><span class="pill"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16M4 12h16M4 19h10"/></svg></span>Guide</button></nav></div>
+<script>
+(function(){try{
+const mk=s=>{const c=document.createElement("canvas");c.width=c.height=s;const x=c.getContext("2d");x.fillStyle="#4c9a2a";x.fillRect(0,0,s,s);x.fillStyle="#fff";const g=s*.16,p=s*.2;for(let i=0;i<3;i++)for(let j=0;j<3;j++){if((i+j)%2==0)x.fillRect(p+i*(g+s*.04)+s*.02,p+j*(g+s*.04)+s*.02,g,g)}return c.toDataURL("image/png")};
+const a=mk(192),b=mk(512),base=new URL(".",location.href).href;
+const man={name:"Crafting Minecraft",short_name:"Crafting MC",id:base,start_url:base,scope:base,display:"standalone",orientation:"portrait",background_color:"#4c9a2a",theme_color:"#4c9a2a",icons:[{src:a,sizes:"192x192",type:"image/png",purpose:"any"},{src:b,sizes:"512x512",type:"image/png",purpose:"any"}]};
+const l=document.createElement("link");l.rel="manifest";l.href=URL.createObjectURL(new Blob([JSON.stringify(man)],{type:"application/manifest+json"}));document.head.appendChild(l);
+const t=document.createElement("link");t.rel="apple-touch-icon";t.href=a;document.head.appendChild(t);
+}catch(e){}})();
+const L=`Assi|Planks|4|T|T=Tronco (qualsiasi)
+Assi di bambù|Bamboo Planks|2|B|B=Blocco di bambù
+Bastone|Stick|4|A/A|A=Assi
+Bastone|Stick|1|B/B|B=Bambù
+Banco da lavoro|Crafting Table|1|AA/AA|A=Assi
+Fornace|Furnace|1|CCC/C.C/CCC|C=Ciottoli
+Altoforno|Blast Furnace|1|III/IFI/SSS|I=Lingotto di ferro,F=Fornace,S=Pietra liscia
+Affumicatore|Smoker|1|.T./TFT/.T.|T=Tronco (qualsiasi),F=Fornace
+Cassa|Chest|1|AAA/A.A/AAA|A=Assi
+Torcia|Torch|4|C/B|C=Carbone,B=Bastone
+Torcia|Torch|4|C/B|C=Carbone vegetale,B=Bastone
+Carbone vegetale|Charcoal|1|#Fornace: Tronco (qualsiasi)|
+Lingotto di ferro|Iron Ingot|1|#Fornace: Ferro grezzo|
+Lingotto d’oro|Gold Ingot|1|#Fornace: Oro grezzo|
+Lingotto di rame|Copper Ingot|1|#Fornace: Rame grezzo|
+Vetro|Glass|1|#Fornace: Sabbia|
+Pietra|Stone|1|#Fornace: Ciottoli|
+Mattone|Brick|1|#Fornace: Palla d’argilla|
+Arco|Bow|1|.SF/S.F/.SF|S=Bastone,F=Filo
+Freccia|Arrow|4|P/B/F|P=Selce,B=Bastone,F=Piuma
+Canna da pesca|Fishing Rod|1|..B/.BF/B.F|B=Bastone,F=Filo
+Cesoie|Shears|1|.L/L.|L=Lingotto di ferro
+Acciarino|Flint and Steel|1|~Lingotto di ferro+Selce|
+Scudo|Shield|1|ALA/AAA/.A.|A=Assi,L=Lingotto di ferro
+Secchio|Bucket|1|L.L/.L.|L=Lingotto di ferro
+Calderone|Cauldron|1|L.L/L.L/LLL|L=Lingotto di ferro
+Cesto|Hopper|1|L.L/LCL/.L.|L=Lingotto di ferro,C=Cassa
+Binari|Rail|16|L.L/LBL/L.L|L=Lingotto di ferro,B=Bastone
+Binari alimentati|Powered Rail|6|L.L/LBL/LRL|L=Lingotto d’oro,B=Bastone,R=Polvere di redstone
+Carrello|Minecart|1|L.L/LLL|L=Lingotto di ferro
+Barca|Boat|1|A.A/AAA|A=Assi
+Letto|Bed|1|LLL/AAA|L=Lana (qualsiasi),A=Assi
+Porta|Door|3|AA/AA/AA|A=Assi
+Botola|Trapdoor|2|AAA/AAA|A=Assi
+Scala a pioli|Ladder|3|B.B/BBB/B.B|B=Bastone
+Recinto|Fence|3|ABA/ABA|A=Assi,B=Bastone
+Cancello|Fence Gate|1|BAB/BAB|A=Assi,B=Bastone
+Cartello|Sign|3|AAA/AAA/.B.|A=Assi,B=Bastone
+Pane|Bread|1|GGG|G=Grano
+Biscotto|Cookie|8|GCG|G=Grano,C=Fave di cacao
+Torta|Cake|1|LLL/ZUZ/GGG|L=Secchio di latte,Z=Zucchero,U=Uovo,G=Grano
+Zucchero|Sugar|1|C|C=Canna da zucchero
+Carta|Paper|3|CCC|C=Canna da zucchero
+Libro|Book|1|~Carta+Carta+Carta+Cuoio|
+Libreria|Bookshelf|1|AAA/LLL/AAA|A=Assi,L=Libro
+Incudine|Anvil|1|BBB/.L./LLL|B=Blocco di ferro,L=Lingotto di ferro
+Tavolo per incantesimi|Enchanting Table|1|.L./DOD/OOO|L=Libro,D=Diamante,O=Ossidiana
+Alambicco|Brewing Stand|1|.V./CCC|V=Verga di blaze,C=Ciottoli
+Tavolo da fucina|Smithing Table|1|LL/AA/AA|L=Lingotto di ferro,A=Assi
+Tagliapietre|Stonecutter|1|.L./PPP|L=Lingotto di ferro,P=Pietra
+Bussola|Compass|1|.L./LRL/.L.|L=Lingotto di ferro,R=Polvere di redstone
+Orologio|Clock|1|.O./ORO/.O.|O=Lingotto d’oro,R=Polvere di redstone
+Lanterna|Lantern|1|NNN/NTN/NNN|N=Pepita di ferro,T=Torcia
+Pietra luminosa|Glowstone|1|PP/PP|P=Polvere di pietra luminosa
+Torcia di redstone|Redstone Torch|1|R/B|R=Polvere di redstone,B=Bastone
+Ripetitore|Repeater|1|TRT/SSS|T=Torcia di redstone,R=Polvere di redstone,S=Pietra
+Comparatore|Comparator|1|.T./TQT/SSS|T=Torcia di redstone,Q=Quarzo,S=Pietra
+Pistone|Piston|1|AAA/CLC/CRC|A=Assi,C=Ciottoli,L=Lingotto di ferro,R=Polvere di redstone
+Pistone appiccicoso|Sticky Piston|1|S/P|S=Palla di slime,P=Pistone
+Leva|Lever|1|B/C|B=Bastone,C=Ciottoli
+Pulsante di pietra|Stone Button|1|P|P=Pietra
+Piastra a pressione di pietra|Stone Pressure Plate|1|PP|P=Pietra
+Dispenser|Dispenser|1|CCC/CAC/CRC|C=Ciottoli,A=Arco,R=Polvere di redstone
+Dropper|Dropper|1|CCC/C.C/CRC|C=Ciottoli,R=Polvere di redstone
+Osservatore|Observer|1|CCC/RRQ/CCC|C=Ciottoli,R=Polvere di redstone,Q=Quarzo
+Lampada a redstone|Redstone Lamp|1|.R./RVR/.R.|R=Polvere di redstone,V=Pietra luminosa
+TNT|TNT|1|PSP/SPS/PSP|P=Polvere da sparo,S=Sabbia
+Lastra di legno|Wooden Slab|6|AAA|A=Assi
+Sensore di luce diurna|Daylight Detector|1|GGG/QQQ/LLL|G=Vetro,Q=Quarzo,L=Lastra di legno`.split("\n");
+const TL=[["Piccone","Pickaxe","MMM/.B./.B."],["Ascia","Axe","MM/MB/.B"],["Pala","Shovel","M/B/B"],["Zappa","Hoe","MM/.B/.B"],["Spada","Sword","M/M/B"]];
+const MA=[["di legno","Wooden","Assi"],["di pietra","Stone","Ciottoli"],["di ferro","Iron","Lingotto di ferro"],["d’oro","Golden","Lingotto d’oro"],["di diamante","Diamond","Diamante"]];
+TL.forEach(([n,e,p])=>{MA.forEach(([m,me,i])=>L.push(`${n} ${m}|${me} ${e}|1|${p}|M=${i},B=Bastone`));L.push(`${n} di netherite|Netherite ${e}|1|#Tavolo da fucina: ${n} di diamante + Lingotto di netherite + Matrice di forgiatura netherite|`)});
+const PE=[["Elmo","Helmet","MMM/M.M"],["Corazza","Chestplate","M.M/MMM/MMM"],["Gambali","Leggings","MMM/M.M/M.M"],["Stivali","Boots","M.M/M.M"]];
+[["di cuoio","Leather","Cuoio"],["di ferro","Iron","Lingotto di ferro"],["d’oro","Golden","Lingotto d’oro"],["di diamante","Diamond","Diamante"]].forEach(([m,me,i])=>PE.forEach(([n,e,p])=>L.push(`${n} ${m}|${me} ${e}|1|${p}|M=${i}`)));
+PE.forEach(([n,e])=>L.push(`${n} di netherite|Netherite ${e}|1|#Tavolo da fucina: ${n} di diamante + Lingotto di netherite + Matrice di forgiatura netherite|`));
+[["Blocco di ferro","Iron Block","Lingotto di ferro","Iron Ingot"],["Blocco d’oro","Gold Block","Lingotto d’oro","Gold Ingot"],["Blocco di diamante","Diamond Block","Diamante","Diamond"],["Blocco di smeraldo","Emerald Block","Smeraldo","Emerald"],["Blocco di redstone","Redstone Block","Polvere di redstone","Redstone Dust"],["Blocco di lapislazzuli","Lapis Block","Lapislazzuli","Lapis Lazuli"],["Blocco di carbone","Coal Block","Carbone","Coal"],["Blocco di rame","Copper Block","Lingotto di rame","Copper Ingot"]].forEach(([b,be,i,ie])=>{L.push(`${b}|${be}|1|MMM/MMM/MMM|M=${i}`);L.push(`${i}|${ie}|9|~${b}|`)});
+const XR=`Pietra liscia|Smooth Stone|1|#Fornace: Pietra|
+Terracotta|Terracotta|1|#Fornace: Argilla|
+Palla d’argilla|Clay Ball|4|~Argilla|
+Argilla|Clay|1|CC/CC|C=Palla d’argilla
+Lastra di pietra|Stone Slab|6|PPP|P=Pietra
+Scale di pietra|Stone Stairs|4|P../PP./PPP|P=Ciottoli
+Muro di ciottoli|Cobblestone Wall|6|CCC/CCC|C=Ciottoli
+Mattoni di pietra|Stone Bricks|4|PP/PP|P=Pietra
+Diorite|Diorite|2|CQ/QC|C=Ciottoli,Q=Quarzo
+Granito|Granite|1|~Diorite+Quarzo|
+Andesite|Andesite|2|~Diorite+Ciottoli|
+Scale di legno|Wooden Stairs|4|A../AA./AAA|A=Assi
+Pulsante di legno|Wooden Button|1|A|A=Assi
+Piastra a pressione di legno|Wooden Pressure Plate|1|AA|A=Assi
+Mattoni|Bricks|1|MM/MM|M=Mattone
+Arenaria|Sandstone|1|SS/SS|S=Sabbia
+Arenaria rossa|Red Sandstone|1|SS/SS|S=Sabbia rossa
+Arenaria liscia|Smooth Sandstone|1|#Fornace: Arenaria|
+Blocco di quarzo|Block of Quartz|1|QQ/QQ|Q=Quarzo
+Pilastro di quarzo|Quartz Pillar|2|B/B|B=Blocco di quarzo
+Lastra di quarzo|Quartz Slab|6|BBB|B=Blocco di quarzo
+Mattone del Nether|Nether Brick|1|#Fornace: Netherrack|
+Mattoni del Nether|Nether Bricks|1|MM/MM|M=Mattone del Nether
+Mattoni rossi del Nether|Red Nether Bricks|1|NM/MN|N=Verruca del Nether,M=Mattone del Nether
+Blocco di neve|Snow Block|1|SS/SS|S=Palla di neve
+Ghiaccio compatto|Packed Ice|1|III/III/III|I=Ghiaccio
+Ghiaccio blu|Blue Ice|1|III/III/III|I=Ghiaccio compatto
+Balla di fieno|Hay Bale|1|GGG/GGG/GGG|G=Grano
+Blocco di slime|Slime Block|1|SSS/SSS/SSS|S=Palla di slime
+Blocco di miele|Honey Block|1|BB/BB|B=Bottiglia di miele
+Blocco di favo|Honeycomb Block|1|FF/FF|F=Favo
+Lanterna marina|Sea Lantern|1|FCF/CCC/FCF|F=Frammento di prismarina,C=Cristallo di prismarina
+Prismarina|Prismarine|1|FF/FF|F=Frammento di prismarina
+Mattoni di prismarina|Prismarine Bricks|1|FFF/FFF/FFF|F=Frammento di prismarina
+Prismarina scura|Dark Prismarine|1|FFF/FIF/FFF|F=Frammento di prismarina,I=Sacca d’inchiostro
+Faro|Beacon|1|GGG/GNG/OOO|G=Vetro,N=Stella del Nether,O=Ossidiana
+Polvere di blaze|Blaze Powder|2|~Verga di blaze|
+Occhio dell’ender|Eye of Ender|1|~Perla dell’ender+Polvere di blaze|
+Cassa dell’End|Ender Chest|1|OOO/OEO/OOO|O=Ossidiana,E=Occhio dell’ender
+Mattoni dell’End|End Stone Bricks|4|EE/EE|E=Pietra dell’End
+Blocco di purpur|Purpur Block|4|FF/FF|F=Frutto del coro scoppiato
+Frutto del coro scoppiato|Popped Chorus Fruit|1|#Fornace: Frutto del coro|
+Tavolo da cartografia|Cartography Table|1|CC/AA/AA|C=Carta,A=Assi
+Telaio|Loom|1|FF/AA|F=Filo,A=Assi
+Affilatrice|Grindstone|1|BLB/A.A|B=Bastone,L=Lastra di pietra,A=Assi
+Barile|Barrel|1|ASA/A.A/ASA|A=Assi,S=Lastra di legno
+Torcia dell’anima|Soul Torch|4|C/B/S|C=Carbone,B=Bastone,S=Sabbia delle anime
+Falò|Campfire|1|.B./BCB/LLL|B=Bastone,C=Carbone,L=Tronco (qualsiasi)
+Gancio per corda|Tripwire Hook|2|L/B/A|L=Lingotto di ferro,B=Bastone,A=Assi
+Cassa intrappolata|Trapped Chest|1|~Cassa+Gancio per corda|
+Giradischi|Jukebox|1|AAA/ADA/AAA|A=Assi,D=Diamante
+Blocco musicale|Note Block|1|AAA/ARA/AAA|A=Assi,R=Polvere di redstone
+Pannello di vetro|Glass Pane|16|GGG/GGG|G=Vetro
+Sbarre di ferro|Iron Bars|16|LLL/LLL|L=Lingotto di ferro
+Porta di ferro|Iron Door|3|LL/LL/LL|L=Lingotto di ferro
+Botola di ferro|Iron Trapdoor|1|LL/LL|L=Lingotto di ferro
+Cornice|Item Frame|1|BBB/BCB/BBB|B=Bastone,C=Cuoio
+Vaso di fiori|Flower Pot|1|M.M/.M.|M=Mattone
+Rame tagliato|Cut Copper|4|CC/CC|C=Blocco di rame
+Parafulmine|Lightning Rod|1|R/R/R|R=Lingotto di rame
+Blocco di ametista|Amethyst Block|1|AA/AA|A=Frammento di ametista
+Cannocchiale|Spyglass|1|A/R/R|A=Frammento di ametista,R=Lingotto di rame
+Blocco di bambù|Block of Bamboo|1|BBB/BBB/BBB|B=Bambù
+Pepita di ferro|Iron Nugget|9|~Lingotto di ferro|
+Frammento di netherite|Netherite Scrap|1|#Fornace: Antichi detriti|
+Lingotto di netherite|Netherite Ingot|1|~Frammento di netherite+Frammento di netherite+Frammento di netherite+Frammento di netherite+Lingotto d’oro+Lingotto d’oro+Lingotto d’oro+Lingotto d’oro|`;
+L.push(...XR.split("\n"));
+[["bianco","bianca","White"],["arancione","arancione","Orange"],["magenta","magenta","Magenta"],["azzurro","azzurra","Light Blue"],["giallo","gialla","Yellow"],["verde lime","verde lime","Lime"],["rosa","rosa","Pink"],["grigio","grigia","Gray"],["grigio chiaro","grigia chiara","Light Gray"],["ciano","ciano","Cyan"],["viola","viola","Purple"],["blu","blu","Blue"],["marrone","marrone","Brown"],["verde","verde","Green"],["rosso","rossa","Red"],["nero","nera","Black"]].forEach(([m,f,e])=>{L.push(`Lana ${f}|${e} Wool|1|~Lana (qualsiasi)+Tinta ${f}|`,`Terracotta ${f}|${e} Terracotta|8|TTT/TDT/TTT|T=Terracotta,D=Tinta ${f}`,`Vetro ${m}|${e} Stained Glass|8|VVV/VDV/VVV|V=Vetro,D=Tinta ${f}`,`Cemento in polvere ${m}|${e} Concrete Powder|8|~Sabbia+Sabbia+Sabbia+Sabbia+Ghiaia+Ghiaia+Ghiaia+Ghiaia+Tinta ${f}|`,`Cemento ${m}|${e} Concrete|1|#Acqua: Cemento in polvere ${m}|`,`Tappeto ${m}|${e} Carpet|3|LL|L=Lana ${f}`)});
+const REC=L.map(s=>{const[o,en,n,g,k]=s.split("|");const r={o,en,n:+n,cells:null,ing:[]};
+ if(g[0]==="#"){r.txt=g.slice(1).split(":")[0];r.ing=g.split(":")[1].split("+").map(x=>x.trim())}
+ else if(g[0]==="~"){r.txt="Senza forma";r.ing=g.slice(1).split("+")}
+ else{const mp={};k.split(",").forEach(x=>{const i=x.indexOf("=");mp[x.slice(0,i)]=x.slice(i+1)});r.cells=Array(9).fill("");
+  g.split("/").forEach((row,y)=>[...row].forEach((c,x)=>{if(c!==".")r.cells[y*3+x]=mp[c]}));r.ing=r.cells.filter(Boolean)}
+ return r});
+const BY={};REC.forEach(r=>(BY[r.o]=BY[r.o]||[]).push(r));
+const NAMES=Object.keys(BY).sort((a,b)=>a.localeCompare(b,"it"));
+const BL=`Minerale di carbone|Coal Ore|Ovunque sottoterra, più frequente attorno a Y 96|Qualsiasi piccone|Dà carbone: combustibile e torce
+Minerale di rame|Copper Ore|Nelle grotte, più frequente attorno a Y 48|Piccone di pietra o superiore|Dà più pezzi di rame grezzo
+Minerale di ferro|Iron Ore|Picchi a Y 16 e in alta montagna (Y 232)|Piccone di pietra o superiore|Fondi il ferro grezzo in fornace
+Minerale di oro|Gold Ore|Picco attorno a Y -16, molto più comune nelle badlands|Piccone di ferro o superiore|Fondi l’oro grezzo in fornace
+Minerale di lapislazzuli|Lapis Ore|Picco a Y 0|Piccone di pietra o superiore|Serve per incantare e per le tinte
+Minerale di redstone|Redstone Ore|Picco a Y -59, vicino al fondo del mondo|Piccone di ferro o superiore|Con Fortuna dà più polvere
+Minerale di diamante|Diamond Ore|Picco a Y -59, scava tra Y -64 e 16|Piccone di ferro o superiore|Vicino al fondo c’è lava: porta un secchio d’acqua
+Minerale di smeraldo|Emerald Ore|Solo nei biomi di montagna, in alto (picco Y 236)|Piccone di ferro o superiore|Si ottengono anche commerciando con i villager
+Antichi detriti|Ancient Debris|Nel Nether, picco a Y 15|Piccone di diamante o netherite|Fondili, poi 4 detriti + 4 lingotti d’oro = 1 lingotto di netherite
+Quarzo del Nether|Nether Quartz Ore|Nel Nether, ovunque|Qualsiasi piccone|Serve per comparatori e osservatori
+Pietra luminosa|Glowstone|Soffitti delle caverne del Nether|Qualsiasi, Tocco di seta per il blocco intero|Senza Tocco di seta dà polvere di pietra luminosa
+Ossidiana|Obsidian|Versa acqua su una sorgente di lava|Piccone di diamante o netherite|Per un portale del Nether servono 10 blocchi
+Ossidiana piangente|Crying Obsidian|Portali in rovina, baratto con i Piglin, forzieri|Piccone di diamante o netherite|Serve per l’ancora di rinascita
+Sabbia delle anime|Soul Sand|Valli delle anime nel Nether|Pala|Serve per gli ascensori a bolle
+Blocco di magma|Magma Block|Nel Nether e sui fondali oceanici profondi|Piccone|Fa male se ci cammini sopra: accucciati per evitarlo
+Argilla|Clay|Fondali di fiumi e paludi|Pala|Ogni blocco dà 4 palle d’argilla
+Ghiaia|Gravel|Fiumi e grotte|Pala|Ogni tanto lascia cadere selce
+Spugna|Sponge|Nei monumenti oceanici (bagnata)|Qualsiasi|Asciugala in fornace per riutilizzarla
+Ghiaccio|Ice|Biomi ghiacciati|Piccone con Tocco di seta|Senza Tocco di seta si scioglie in acqua
+Nido d’api|Bee Nest|Foreste di fiori e pianure|Tocco di seta|Le api dentro restano arrabbiate se lo rompi male
+Spawner|Monster Spawner|Dungeon, miniere abbandonate, fortezze|Non raccoglibile in sopravvivenza|Rompendolo dà esperienza, il Tocco di seta non funziona
+Uovo di drago|Dragon Egg|Sull’End, dopo aver sconfitto il Drago|Spingilo con un pistone|Ce n’è uno solo per mondo
+Bedrock|Bedrock|Fondo del mondo e tetto del Nether|Non ottenibile in sopravvivenza|—
+Terra|Dirt|Ovunque in superficie|Pala o a mano|Con la zappa diventa zolla
+Erba|Grass Block|Pianure e foreste|Tocco di seta|Senza Tocco di seta dà terra
+Zolla|Farmland|Usa la zappa su terra o erba|Zappa|Si secca se non c’è acqua vicina
+Podzol|Podzol|Taiga con alberi giganti|Tocco di seta|—
+Micelio|Mycelium|Biomi dei funghi|Tocco di seta|—
+Sabbia|Sand|Spiagge, deserti, fondali|Pala|Cade se non ha blocchi sotto
+Sabbia rossa|Red Sand|Badlands|Pala|—
+Ciottoli|Cobblestone|Si ottengono rompendo la pietra|Qualsiasi piccone|Servono per fornace e utensili di pietra
+Pietra|Stone|Sottoterra|Piccone con Tocco di seta|Senza Tocco di seta dà ciottoli; fondendo i ciottoli ottieni pietra
+Ardesia profonda|Deepslate|Sottoterra sotto Y 0|Piccone|—
+Basalto|Basalt|Delta di basalto nel Nether|Piccone|—
+Netherrack|Netherrack|Nel Nether, ovunque|Piccone|Se accesa brucia a lungo
+Pietra nera|Blackstone|Bastioni del Nether|Piccone|—
+Pietra dell’End|End Stone|Nell’End|Piccone|—
+Muschio|Moss Block|Grotte lussureggianti|Qualsiasi|—
+Fango|Mud|Paludi di mangrovie|Pala|—
+Cactus|Cactus|Deserti|Qualsiasi|Ferisce chi lo tocca
+Bambù|Bamboo|Giungle|Qualsiasi|Cresce molto in alto
+Verruca del Nether|Nether Wart|Fortezze del Nether|Qualsiasi|Si pianta sulla sabbia delle anime
+Frutto del coro|Chorus Fruit|Isole esterne dell’End|Qualsiasi|Mangiarlo ti teletrasporta
+Corallo|Coral|Mari caldi|Tocco di seta|Senza Tocco di seta muore
+Sculk|Sculk|Città antiche|Zappa o Tocco di seta|—
+Frammento di ametista|Amethyst Shard|Geodi sotterranei|Qualsiasi piccone|Si ottiene dai cristalli di ametista
+Perla dell’ender|Ender Pearl|Droppata dagli Enderman|Spada|Lanciata ti teletrasporta
+Verga di blaze|Blaze Rod|Droppata dai Blaze nelle fortezze|Spada|—
+Stella del Nether|Nether Star|Droppata dal Wither|Spada|Serve per il faro
+Frammento di prismarina|Prismarine Shard|Droppato dai Guardiani|Spada|Servono anche per la lanterna marina
+Cristallo di prismarina|Prismarine Crystals|Droppato dai Guardiani|Spada|Servono per la lanterna marina
+Palla di slime|Slimeball|Dagli slime (paludi, caverne)|Spada|—
+Filo|String|Dai ragni|Spada|Si trova anche nelle ragnatele con le cesoie
+Piuma|Feather|Dai polli|Spada|—
+Cuoio|Leather|Da mucche e cavalli|Spada|—
+Polvere da sparo|Gunpowder|Dai creeper|Spada|—
+Selce|Flint|Rompendo la ghiaia|Pala|—
+Sacca d’inchiostro|Ink Sac|Dai calamari|Spada|—
+Grano|Wheat|Si coltiva con i semi|Zappa|—
+Tronco (qualsiasi)|Log|Abbatti gli alberi|Ascia (più veloce)|Dà assi, carbone vegetale e bastoni
+Lana (qualsiasi)|Wool|Tosando le pecore|Cesoie|Oppure uccidendo la pecora
+Palla di neve|Snowball|Scava la neve|Pala|Si può anche lanciare
+Bottiglia di miele|Honey Bottle|Da un alveare con una bottiglia di vetro|Bottiglia vuota|—
+Favo|Honeycomb|Da un alveare|Cesoie|—
+Secchio di latte|Milk Bucket|Mungi una mucca|Secchio|—
+Fave di cacao|Cocoa Beans|Alberi della giungla|Qualsiasi|—
+Uovo|Egg|Dalle galline|—|—
+Papavero e fiori|Flowers|Nelle pianure|A mano|Servono per le tinte
+Tinta|Dye|Fiori, ossa, inchiostro e altri oggetti|—|Ogni colore ha il suo ingrediente
+Canna da zucchero|Sugar Cane|Rive di fiumi e spiagge|Qualsiasi|Si pianta su sabbia o terra vicino all’acqua
+Polvere di pietra luminosa|Glowstone Dust|Rompendo pietra luminosa|Qualsiasi|Servono 4 polveri per un blocco
+Pepita di ferro|Iron Nugget|Fondendo armi e armature di ferro, o dai golem di ferro|—|Si crafta anche da un lingotto
+Matrice di forgiatura netherite|Netherite Upgrade Template|Forzieri dei bastioni del Nether|—|Si duplica con diamanti e netherrack`.split("\n").map(s=>{const[o,en,d,t,c]=s.split("|");return{o,en,d,t,c}});
+const GD=`Farm|Farm di colture (grano, carote, patate)|Zappa · Secchio d’acqua|Scegli un’area piatta 9×9 // Scava un buco 1×1 al centro e versa l’acqua: irriga fino a 4 blocchi di distanza // Con la zappa trasforma la terra attorno in zolle // Pianta i semi // Illumina l’area: le colture crescono solo con luce di livello 9 o più // Raccogli quando sono mature e ripianta|La farina d’ossa accelera la crescita|colture
+Farm|Farm di canna da zucchero|—|Pianta le canne su sabbia, terra o erba vicino a un blocco d’acqua // Crescono fino a 3 blocchi // Rompi i due superiori e lascia la base // Ripeti quando sono di nuovo alte|Esiste una versione automatica con pistoni e osservatori: chiedimela|canna
+Farm|Farm di cactus|Secchio d’acqua · Cesto per raccogliere|Pianta il cactus su sabbia, senza blocchi attaccati ai lati // Metti un blocco solido accanto al secondo livello // Quando cresce lì si rompe da solo e lascia l’oggetto // Raccogli gli oggetti che cadono (un canale d’acqua li porta in un cesto)|Il cactus ferisce chi lo tocca|cactus
+Farm|Farm di zucche e angurie|Zappa|Pianta il seme su una zolla irrigata // Lascia libero un blocco accanto a ogni gambo // Il frutto cresce lì quando il gambo è maturo // Spezza solo il frutto, mai il gambo|Alterna gambi e spazi liberi|zucche
+Redstone|Come funziona la redstone|—|Il segnale viaggia nella polvere per 15 blocchi, perdendone 1 a blocco // Un ripetitore rigenera il segnale e lo ritarda di 1-4 tick // Un blocco solido alimentato trasmette il segnale ai componenti vicini // La polvere va posata su blocchi solidi|La polvere non può passare sul vetro|base
+Redstone|Inverter (porta NOT)|—|Attacca una torcia di redstone al lato di un blocco solido // Se il blocco riceve segnale, la torcia si spegne // Se non lo riceve, la torcia è accesa // Collega l’uscita con la polvere|La torcia accesa alimenta anche il blocco sopra di sé|inverter
+Redstone|Lampada con piastra a pressione|—|Posa la lampada // Posa la piastra a qualche blocco di distanza // Collega la piastra alla lampada con la polvere // Calpesta la piastra per accendere la luce|Con una leva la luce resta accesa|piastra
+Redstone|Luci automatiche di notte|—|Posa il sensore all’aperto // Cliccaci sopra col tasto destro: invertito, dà segnale di notte // Collega con la polvere alle lampade|Il sensore non funziona al coperto|notte
+Redstone|Fornace automatica con cesti|Carbone · oggetti da cuocere|Metti una cassa sopra un cesto che sbocca nella fornace dall’alto: sono gli oggetti da cuocere // Un secondo cesto sul fianco, con una cassa di carbone sopra, porta il combustibile // Un cesto sotto la fornace sposta il risultato in una cassa|Posa i cesti accucciandoti sul blocco, così puntano dove vuoi|fornace
+Utilità|Portale del Nether|Acciarino|Costruisci una cornice verticale larga 4 e alta 5, gli angoli possono mancare // L’interno libero è 2×3 // Accendi dentro con l’acciarino|Nel Nether 1 blocco equivale a 8 blocchi del mondo normale|portale
+Utilità|Ascensore a bolle|Secchio d’acqua · Blocco di magma (per scendere)|Scava una colonna 1×1 // Sul fondo metti la sabbia delle anime e versa l’acqua dall’alto: le bolle ti portano su // Per scendere metti il blocco di magma sul fondo // Chiudi i lati con blocchi per contenere l’acqua|Il magma tira giù anche quando sei vicino|ascensore`.split("\n").map(s=>{const[c,t,x,p,n,k]=s.split("|");return{c,t,x,p:p.split(" // "),n,k}});
+const RW=(a,b,y,z,n)=>{const o=[];for(let x=a;x<=b;x++)o.push([x,y,z,n]);return o};
+const DU="Polvere di redstone",LA="Lampada a redstone",BS="Blocco solido";
+const MD={colture:()=>{const v=[];for(let x=0;x<9;x++)for(let z=0;z<9;z++){const c=x==4&&z==4;v.push([x,0,z,c?"Acqua":"Zolla"]);if(!c)v.push([x,1,z,x%8==0&&z%8==0?"Torcia":"Semi di grano"])}return v},
+canna:()=>[...RW(0,4,0,0,"Sabbia"),...RW(0,4,0,1,"Acqua"),...RW(0,4,1,0,"Canna da zucchero"),...RW(0,4,2,0,"~Canna da zucchero"),...RW(0,4,3,0,"~Canna da zucchero")],
+cactus:()=>[[1,0,1,"Sabbia"],[1,1,1,"Cactus"],[1,2,1,"~Cactus"],[2,2,1,BS]],
+zucche:()=>[...RW(0,4,0,1,"Zolla"),[0,1,1,"Semi di zucca"],[2,1,1,"Semi di zucca"],[4,1,1,"Semi di zucca"],[1,1,1,"~Zucca"],[3,1,1,"~Zucca"],[2,0,0,"Acqua"]],
+base:()=>[...RW(0,7,0,0,BS),[0,1,0,"Leva"],...RW(1,2,1,0,DU),[3,1,0,"Ripetitore"],...RW(4,6,1,0,DU),[7,1,0,LA]],
+inverter:()=>[...RW(0,5,0,0,BS),[0,1,0,"Leva"],[1,1,0,BS],[2,1,0,"Torcia di redstone"],[3,1,0,DU],[4,1,0,DU],[5,1,0,LA]],
+piastra:()=>[...RW(0,5,0,0,BS),[0,1,0,"Piastra a pressione di pietra"],...RW(1,4,1,0,DU),[5,1,0,LA]],
+notte:()=>[...RW(0,4,0,0,BS),[0,1,0,"Sensore di luce diurna"],...RW(1,3,1,0,DU),[4,1,0,LA]],
+fornace:()=>[[0,0,0,"Cassa"],[0,1,0,"Cesto"],[0,2,0,"Fornace"],[0,3,0,"Cesto"],[0,4,0,"Cassa"],[1,2,0,"Cesto"],[1,3,0,"Cassa"]],
+portale:()=>{const v=[];for(let y=0;y<5;y++)for(let x=0;x<4;x++){const e=x%3==0||y%4==0,c=x%3==0&&y%4==0;if(e&&!c)v.push([x,y,0,"Ossidiana"]);else if(!e)v.push([x,y,0,"~Portale"])}return v},
+ascensore:()=>[[1,0,1,"Sabbia delle anime"],...[1,2,3,4,5].map(y=>[1,y,1,"Acqua"])]};
+const ALI={"Carbone":"Minerale di carbone","Diamante":"Minerale di diamante","Smeraldo":"Minerale di smeraldo","Lapislazzuli":"Minerale di lapislazzuli","Polvere di redstone":"Minerale di redstone","Quarzo":"Quarzo del Nether","Ferro grezzo":"Minerale di ferro","Oro grezzo":"Minerale di oro","Rame grezzo":"Minerale di rame"};
+const BM={};BL.forEach(b=>BM[b.o]=b);
+const CL=[["bianc",[236,236,236]],["arancion",[235,130,40]],["magenta",[190,70,180]],["azzurr",[100,170,230]],["giall",[240,220,60]],["lime",[125,200,30]],["rosa",[240,150,180]],["grigi[oa] chiar",[160,160,160]],["grigi",[70,75,80]],["ciano",[30,140,150]],["viol",[120,50,170]],["blu",[50,60,170]],["marron",[110,70,40]],["verde",[85,110,40]],["ross",[170,45,40]],["ner[oa]",[25,25,30]],["netherite|detriti",[80,66,70]],["diamante",[76,224,214]],["smeraldo",[50,200,100]],["lapis",[38,70,170]],["redstone",[205,25,20]],["quarzo",[235,228,215]],["luminos",[240,200,110]],["oro",[250,208,60]],["ferro",[212,212,212]],["rame",[200,115,80]],["ossidiana",[28,16,45]],["carbone",[40,40,44]],["cuoio",[150,90,50]],["assi|bastone|banco|cassa|porta|botola|scala|recinto|cancello|cartello|barca|letto|libreria|legno|tronco|lastra",[165,125,72]],["anime",[88,68,58]],["sabbia",[222,208,152]],["argilla",[160,166,182]],["mattone",[152,82,66]],["vetro",[200,232,242]],["lana",[236,236,236]],["ghiaccio",[145,185,245]],["spugna",[212,202,72]],["magma",[185,72,22]],["slime",[112,192,100]],["tnt|sparo",[200,48,48]],["ghiaia",[136,130,128]],["miele|nido",[230,170,40]],["pietra|ciottoli|fornace|altoforno|affumicatore|dispenser|dropper|osservatore|pistone|tagliapietre|selce|bedrock|spawner",[126,126,126]],["acqua",[60,100,220]],["zolla|terra|fango",[110,78,50]],["semi|grano",[225,205,90]],["erba|muschio|alga",[95,160,60]],["cactus|bambu",[40,140,50]],["canna",[140,205,110]],["zucca",[225,130,30]],["portale",[140,40,200]],["torcia",[255,205,80]],["blocco solido|ripetitore",[170,170,170]],["leva",[120,100,80]],["sensore",[190,170,120]],["cesto",[90,90,95]]];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nz=s=>s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const hue=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h};
+const rng=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return()=>{h=(h*1664525+1013904223)|0;return((h>>>8)&255)/255}};
+const col=n=>{const z=nz(n);for(const[r,c]of CL)if(new RegExp(r).test(z))return c;const h=hue(n);return[110+h%90,110+(h*7)%90,110+(h*13)%90]};
+const IC={},WD=[165,125,72];
+function ic(n){if(IC[n])return IC[n];const z=nz(n),R=rng(n),k=col(n),c=document.createElement("canvas");c.width=c.height=16;const x=c.getContext("2d");
+ const P=(i,j,q,d=0)=>{x.fillStyle="rgb("+q.map(v=>Math.max(0,Math.min(255,(v+d)|0))).join()+")";x.fillRect(i,j,1,1)};
+ const N=()=>R()*36-18;
+ let S="b";if(/^(piccone|ascia|pala|zappa|spada)/.test(z))S="t";else if(/^lingotto/.test(z))S="i";else if(/^(diamante|smeraldo|lapislazzuli|quarzo|selce)/.test(z))S="g";else if(/^polvere/.test(z))S="d";else if(/^(bastone|canna|freccia)/.test(z))S="s";
+ if(S==="b"){const w=/^(assi|banco|cassa|porta|botola|recinto|cancello|cartello|barca|letto|libreria)/.test(z),ore=/minerale|grezzo|antichi/.test(z);
+  for(let i=0;i<16;i++)for(let j=0;j<16;j++){let d=N();if(i%15==0||j%15==0)d-=30;if(w&&j%4==3)d-=32;const dot=ore&&R()<.2;P(i,j,ore?(dot?k:[126,126,126]):k,dot?0:d)}}
+ else if(S==="i"){for(let j=5;j<11;j++)for(let i=2+(10-j);i<11+(10-j);i++)P(i,j,k,N()+(j==5?25:j==10?-35:0))}
+ else if(S==="g"){for(let j=2;j<14;j++){const w=j<8?j-1:14-j;for(let i=8-w;i<8+w;i++)P(i,j,k,N()+(i<8?15:-15))}}
+ else if(S==="d"){for(let t=0;t<44;t++){const a=R()*6.28,r=R()*5;P(8+Math.round(Math.cos(a)*r),8+Math.round(Math.sin(a)*r),k,N())}}
+ else if(S==="s"){for(let t=0;t<10;t++){P(3+t,12-t,WD,N());P(4+t,12-t,WD,N()-20)}}
+ else{for(let t=0;t<9;t++){P(2+t,13-t,WD,N());P(3+t,13-t,WD,-25)}
+  if(/^spada/.test(z)){for(let t=0;t<8;t++){P(6+t,9-t,k,N());P(7+t,9-t,k,N()-25)}P(4,8,WD);P(5,7,WD)}
+  else if(/^piccone/.test(z)){for(let i=4;i<14;i++)P(i,2+Math.round(Math.abs(i-8.5)/3),k,N());for(let i=4;i<14;i++)P(i,3+Math.round(Math.abs(i-8.5)/3),k,-30)}
+  else if(/^ascia/.test(z)){for(let i=8;i<13;i++)for(let j=2;j<7;j++)P(i,j,k,N())}
+  else if(/^pala/.test(z)){for(let i=10;i<14;i++)for(let j=2;j<6;j++)P(i,j,k,N())}
+  else{for(let i=8;i<14;i++)P(i,3,k,N());P(8,4,k);P(8,5,k)}}
+ return IC[n]=c.toDataURL()}
+const im=(n,s)=>`<img class="px" src="${ic(n)}" width="${s}" height="${s}" alt="">`;
+let cur=null,TB="h",CF=-1,GC="Tutte",QT=1,FAV=[],RC=[];const GQ={},ROT={},STK=[];
+try{FAV=JSON.parse(localStorage.getItem("fav")||"[]");RC=JSON.parse(localStorage.getItem("rc")||"[]")}catch(e){}
+const sv=()=>{try{localStorage.setItem("fav",JSON.stringify(FAV));localStorage.setItem("rc",JSON.stringify(RC))}catch(e){}};
+const CATS=[["Strumenti","Piccone di diamante",/^(piccone|ascia|pala|zappa|spada|arco|freccia|canna da pesca|cesoie|acciarino|secchio|cannocchiale|bussola|orologio)/],["Armature","Corazza di diamante",/^(elmo|corazza|gambali|stivali|scudo)/],["Costruzione","Mattoni di pietra",/(assi|mattoni|mattone|pietra|ciottoli|arenaria|quarzo|prismarina|lanterna marina|^vetro$|lastra|scale|muro|recinto|cancello|porta|botola|diorite|granito|andesite|argilla|neve|ghiaccio|balla|rame tagliato|^blocco)/],["Redstone","Polvere di redstone",/(redstone|pistone|ripetitore|comparatore|osservatore|dispenser|dropper|leva|pulsante|piastra|lampada|cesto|^tnt|sensore|blocco musicale|giradischi|gancio|parafulmine)/],["Trasporti","Carrello",/(barca|carrello|binari)/],["Cibo","Pane",/(pane|torta|biscotto|zucchero|fieno)/],["Colori","Lana rossa",/^(lana |terracotta |cemento|tappeto )|^vetro \w/],["Utilità","Fornace",/(fornace|banco|cassa|barile|tavolo|incudine|libreria|alambicco|calderone|letto|torcia|lanterna|faro|falo|cartello|cornice|vaso|affilatrice|telaio|tagliapietre|affumicatore|altoforno)/]];
+const GI={colture:"Zolla",canna:"Canna da zucchero",cactus:"Cactus",zucche:"Zucca",base:"Polvere di redstone",inverter:"Torcia di redstone",piastra:"Lampada a redstone",notte:"Sensore di luce diurna",fornace:"Fornace",portale:"Ossidiana",ascensore:"Sabbia delle anime"};
+const GM={colture:"Facile · 10 min",canna:"Facile · 5 min",cactus:"Facile · 10 min",zucche:"Facile · 10 min",base:"Facile · 5 min",inverter:"Media · 5 min",piastra:"Facile · 5 min",notte:"Facile · 5 min",fornace:"Media · 10 min",portale:"Facile · 5 min",ascensore:"Facile · 5 min"};
+const CH='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>';
+function anim(){const m=$("m");m.classList.remove("in");void m.offsetWidth;m.classList.add("in")}
+function rs0(){$("q").value="";STK.length=0;cur=null;render();anim();$("m").scrollTop=0}
+function tab(t){TB=t;rs0()}
+function setCat(i){CF=i;TB="c";rs0()}
+function sq(){cur=null;if(TB==="h")TB="c";render()}
+function go(n){if(cur&&TB==="c")STK.push(cur);TB="c";cur=n;QT=1;$("q").value="";RC=[n,...RC.filter(x=>x!==n)].slice(0,12);sv();history.pushState(1,"");render();anim();$("m").scrollTop=0}
+function back(){history.back()}
+function fav(){FAV=FAV.includes(cur)?FAV.filter(x=>x!==cur):[cur,...FAV];sv();$("fv").textContent=FAV.includes(cur)?"★":"☆"}
+function setQ(n){QT=Math.max(1,n|0);$("qty").value=QT;calc()}
+const rowN=n=>`<button class="li" data-n="${esc(n)}" onclick="go(this.dataset.n)">${im(n,40)}<span>${esc(n)}</span>${CH}</button>`;
+const tile=n=>`<button class="tile" data-n="${esc(n)}" onclick="go(this.dataset.n)">${im(n,40)}<span>${esc(n)}</span></button>`;
+const stk=q=>q>=64?" ("+Math.floor(q/64)+" stack"+(q%64?" + "+q%64:"")+")":"";
+const chip=n=>`<button class="chip" data-n="${esc(n)}" onclick="go(this.dataset.n)">${im(n,20)}${esc(n)}</button>`;
+const mat=(a)=>Object.entries(a).sort((x,y)=>y[1]-x[1]).map(([n,q])=>`<button class="chip" data-n="${esc(n)}" onclick="go(this.dataset.n)">${im(n.replace("~",""),20)}${esc(n)} ×${q}${stk(q)}</button>`).join("");
+function counts(a){const c={};a.forEach(x=>c[x]=(c[x]||0)+1);return Object.entries(c).map(([k,v])=>`${v}× ${esc(k)}`).join(" · ")}
+function raw(n,q,a,p){const rs=(BM[n]||ALI[n]||/^Tinta /.test(n))?[]:(BY[n]||[]).filter(r=>!r.ing.some(i=>p.includes(i)||i===n));if(!rs.length){a[n]=(a[n]||0)+q;return}const r=rs[0],t=Math.ceil(q/r.n),c={};r.ing.forEach(i=>c[i]=(c[i]||0)+1);Object.entries(c).forEach(([i,k])=>raw(i,t*k,a,[...p,n]))}
+function calc(){const a={};raw(cur,QT,a,[]);$("res").innerHTML=`<div class="mu" style="margin-bottom:6px">Materiali di base per ${QT}× ${esc(cur)}</div>`+mat(a)}
+function gm(i){const a={},f=GQ[i]||1;MD[GD[i].k]().forEach(v=>{if(v[3][0]!=="~")a[v[3]]=(a[v[3]]||0)+f});$("gm"+i).innerHTML=`<div class="mu" style="margin-bottom:6px">Materiali da piazzare (×${f})</div>`+mat(a)+(GD[i].x!=="—"?`<div class="mu">Inoltre: ${esc(GD[i].x)}</div>`:"")}
+function G3d(i){const cv=$("cv"+i);if(!cv)return;const V=MD[GD[i].k](),r=ROT[i]||0;let W=0,D=0;V.forEach(([x,,z])=>{W=Math.max(W,x+1);D=Math.max(D,z+1)});
+ const T=V.map(([x,y,z,n])=>{let a=x,b=z;if(r==1){a=z;b=W-1-x}else if(r==2){a=W-1-x;b=D-1-z}else if(r==3){a=D-1-z;b=x}return{a,b,y,n}});
+ T.sort((p,q)=>(p.a+p.b)-(q.a+q.b)||p.y-q.y);const w=.866,h=.5;let X0=1e9,X1=-1e9,Y0=1e9,Y1=-1e9;
+ T.forEach(t=>{t.px=(t.a-t.b)*w;t.py=(t.a+t.b)*h-t.y;X0=Math.min(X0,t.px-w);X1=Math.max(X1,t.px+w);Y0=Math.min(Y0,t.py);Y1=Math.max(Y1,t.py+2*h+1)});
+ const c=cv.getContext("2d"),CW=cv.width,CH2=cv.height,s=Math.min(CW/(X1-X0),CH2/(Y1-Y0))*.92,ox=(CW-(X1+X0)*s)/2,oy=(CH2-(Y1+Y0)*s)/2;c.clearRect(0,0,CW,CH2);
+ T.forEach(t=>{const nm=t.n[0]==="~"?t.n.slice(1):t.n,k=col(nm),px=ox+t.px*s,py=oy+t.py*s,wa=w*s,ha=h*s,al=/acqua|portale/.test(nz(nm))?.65:1;
+  const f=(pts,d)=>{c.beginPath();pts.forEach(([u,v],j)=>j?c.lineTo(u,v):c.moveTo(u,v));c.closePath();c.fillStyle="rgba("+k.map(q=>Math.max(0,Math.min(255,q+d))).join()+","+al+")";c.fill();c.strokeStyle="rgba(0,0,0,.25)";c.stroke()};
+  f([[px,py],[px+wa,py+ha],[px,py+2*ha],[px-wa,py+ha]],25);f([[px-wa,py+ha],[px,py+2*ha],[px,py+2*ha+s],[px-wa,py+ha+s]],-10);f([[px+wa,py+ha],[px,py+2*ha],[px,py+2*ha+s],[px+wa,py+ha+s]],-40)})}
+const slot=c=>c?`<button class="sl" data-n="${esc(c)}" onclick="go(this.dataset.n)">${im(c,28)}<span>${esc(c)}</span></button>`:`<div class="sl"></div>`;
+function render(){["h","c","b","g"].forEach(t=>$("t-"+t).className=t===TB?"on":"");
+ const qv=$("q").value.trim(),q=nz(qv),dt=cur&&TB==="c";let h="";
+ $("ab").style.display=(dt||TB!=="h")?"flex":"none";$("ttl").textContent=dt?cur:{h:"",c:"Crafting",b:"Blocchi e materiali",g:"Guide"}[TB];
+ $("bk").style.display=dt?"flex":"none";$("fv").style.display=dt?"flex":"none";if(dt)$("fv").textContent=FAV.includes(cur)?"★":"☆";$("sbar").style.display=dt?"none":"block";
+ $("q").placeholder=TB==="b"?"Cerca un blocco o materiale":TB==="g"?"Cerca una guida":"Cerca un oggetto (anche in inglese)";
+ if(TB==="h"){h+=`<div class="hero"><div class="ht">Guida<br>Minecraft</div><div class="hh">Crafting, blocchi, farm e redstone</div><div class="hi">${im("Diamante",44)}${im("Piccone di diamante",44)}${im("Banco da lavoro",44)}</div></div>`;
+  h+=`<div class="sec">Categorie</div><div class="cg">${CATS.map((c,i)=>`<button class="cat" onclick="setCat(${i})">${im(c[1],40)}<span>${c[0]}</span></button>`).join("")}</div>`;
+  if(FAV.length)h+=`<div class="sec">Preferiti</div><div class="hz">${FAV.map(tile).join("")}</div>`;
+  if(RC.length)h+=`<div class="sec">Recenti</div><div class="hz">${RC.map(tile).join("")}</div>`;
+  h+=`<div class="sec">Guide</div>`+GD.slice(0,4).map(g=>`<button class="li" onclick="tab('g')">${im(GI[g.k],40)}<span>${esc(g.t)}<div class="mu">${g.c} · ${GM[g.k]}</div></span>${CH}</button>`).join("")}
+ else if(TB==="b"){const f=BL.filter(b=>!q||nz(b.o+b.en).includes(q));
+  h+=f.length?f.map(b=>`<div class="card"><div class="r">${im(b.o,56)}<div style="flex:1"><b>${esc(b.o)}</b><div class="mu">${esc(b.en)}</div></div></div><div class="kv"><b>Dove</b><span>${esc(b.d)}</span></div><div class="kv"><b>Con cosa</b><span>${esc(b.t)}</span></div>${b.c!=="—"?`<div class="mu" style="margin-top:8px">💡 ${esc(b.c)}</div>`:""}</div>`).join(""):`<div class="card mu">Nessun risultato.</div>`;
+  h+=`<div class="mu">Quote Y valide per Minecraft 1.18 e successive.</div>`}
+ else if(TB==="g"){h+=`<div class="fc">${["Tutte","Farm","Redstone","Utilità"].map(c=>`<button class="chip${c===GC?" sel":""}" onclick="GC='${c}';render()">${c}</button>`).join("")}</div>`;
+  const f=GD.map((g,i)=>({g,i})).filter(({g})=>(GC==="Tutte"||g.c===GC)&&(!q||nz(g.t).includes(q)));
+  h+=f.length?f.map(({g,i})=>`<div class="card gc ${g.c}"><details ontoggle="if(this.open){G3d(${i});gm(${i})}"><summary>${im(GI[g.k],40)}<div style="flex:1"><b>${esc(g.t)}</b><div class="mu">${g.c} · ${GM[g.k]}</div></div></summary>
+  <canvas id="cv${i}" width="640" height="440" style="width:100%;border-radius:12px;background:var(--bg)"></canvas>
+  <button class="btn" onclick="ROT[${i}]=((ROT[${i}]||0)+1)%4;G3d(${i})">↻ Ruota</button><a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent("minecraft "+g.t)}">▶ Video su YouTube</a>
+  <div class="r" style="margin:6px 0 10px"><b>Quantità ×</b><input type="number" min="1" value="${GQ[i]||1}" oninput="GQ[${i}]=Math.max(1,+this.value||1);gm(${i})"></div>
+  <div id="gm${i}"></div><ol>${g.p.map(s=>`<li>${esc(s)}</li>`).join("")}</ol><div class="mu" style="margin-top:8px">💡 ${esc(g.n)}</div></details></div>`).join(""):`<div class="card mu">Nessuna guida trovata.</div>`}
+ else if(cur){const rs=BY[cur]||[],bi=BM[cur]||BM[ALI[cur]]||(/^Tinta /.test(cur)?BM["Tinta"]:null),ct=CATS.find(c=>c[2].test(nz(cur))),en=rs[0]?rs[0].en:(bi?bi.en:"");
+  h+=`<div class="dh">${im(cur,72)}<div><h2>${esc(cur)}</h2><div class="mu">${esc(en)}</div>${ct?`<span class="tag">${ct[0]}</span>`:""}</div></div>`;
+  if(rs.length)h+=`<div class="card"><div class="mu" style="margin-bottom:8px">Quantità da creare</div><div class="r"><button class="st" onclick="setQ(QT-1)">−</button><input type="number" id="qty" min="1" value="${QT}" oninput="QT=Math.max(1,+this.value||1);calc()"><button class="st" onclick="setQ(QT+1)">+</button></div><div style="margin:10px 0 2px">${[16,64,256].map(n=>`<button class="chip" onclick="setQ(${n})">×${n}</button>`).join("")}</div><div id="res"></div></div>`;
+  rs.forEach((r,i)=>{h+=`<div class="mc"><div class="mt">${r.txt?esc(r.txt):"Banco da lavoro"} · ricetta ${i+1} di ${rs.length}</div><div class="mr">${r.cells?`<div class="mg">${r.cells.map(slot).join("")}</div>`:`<div class="ml">${r.ing.map(slot).join("")}</div>`}<div class="ar">➜</div><div class="out">${im(r.o,40)}<b>${r.n}</b></div></div><div class="mf">Serve: ${counts(r.ing)}</div></div>`});
+  if(bi||!rs.length)h+=`<div class="card"><b>${rs.length?"Si trova anche in gioco":"Materiale di base"}</b>${bi?`<div class="kv"><b>Dove</b><span>${esc(bi.d)}</span></div><div class="kv"><b>Con cosa</b><span>${esc(bi.t)}</span></div><div class="mu" style="margin-top:8px">${esc(bi.c)}${BM[cur]||/^Tinta /.test(cur)?"":" · si ottiene da: "+esc(ALI[cur]||"")}</div>`:`<div class="mu">Non si crafta: si ottiene in gioco. Guarda la scheda Blocchi.</div>`}</div>`;
+  const u=[...new Set(REC.filter(r=>r.ing.includes(cur)&&r.o!==cur).map(r=>r.o))].sort((a,b)=>a.localeCompare(b,"it"));
+  if(u.length)h+=`<div class="sec">Serve per creare</div>`+u.slice(0,30).map(chip).join("")+(u.length>30?`<div class="mu">…e altri ${u.length-30}</div>`:"")}
+ else{const rx=CF>=0?CATS[CF][2]:null,f=NAMES.filter(n=>(!rx||rx.test(nz(n)))&&(!q||nz(n).includes(q)||BY[n].some(r=>nz(r.en).includes(q))));
+  h+=`<div class="fc">${["Tutti",...CATS.map(c=>c[0])].map((c,i)=>`<button class="chip${i-1===CF?" sel":""}" onclick="CF=${i-1};render()">${c}</button>`).join("")}</div>`;
+  h+=f.length?f.map(rowN).join(""):`<div class="card mu">Nessun risultato${qv?" per “"+esc(qv)+"”":""}.</div>`;
+  h+=`<div class="mu" style="margin-top:8px">${f.length} oggetti · icone stilizzate, non le texture ufficiali.</div>`}
+ $("m").innerHTML=h;if(dt&&BY[cur])calc()}
+window.addEventListener("popstate",()=>{cur=STK.length?STK.pop():null;render();anim()});
+render();
+</script></body></html>
